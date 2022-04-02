@@ -35,7 +35,7 @@ public class TaskGroup {
         return description;
     }
 
-    void setDescription(final String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -51,15 +51,15 @@ public class TaskGroup {
         return tasks;
     }
 
-    void setTasks(final Set<Task> tasks) {
+    public void setTasks(final Set<Task> tasks) {
         this.tasks = tasks;
     }
 
-    Project getProject() {
+    public Project getProject() {
         return project;
     }
 
-    void setProject(final Project project) {
+    public void setProject(final Project project) {
         this.project = project;
     }
 }
