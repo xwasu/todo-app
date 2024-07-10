@@ -1552,3 +1552,9 @@ Caused by: org.h2.mvstore.MVStoreException: The write format 2 is smaller than t
 2024-07-10 16:32:30 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLNonTransientException: Obiekt jest zamknięty
 The object is already closed [90007-214]
+2024-07-10 16:45:23 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Obiekt jest zamknięty
+The object is already closed [90007-214]
+2024-07-10 16:47:42 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Obiekt jest zamknięty
+The object is already closed [90007-214]
