@@ -1,9 +1,7 @@
 package io.github.xwasu.logic;
 
 import io.github.xwasu.TaskConfigurationProperties;
-import io.github.xwasu.model.ProjectRepository;
-import io.github.xwasu.model.TaskGroup;
-import io.github.xwasu.model.TaskGroupRepository;
+import io.github.xwasu.model.*;
 import io.github.xwasu.model.projection.GroupReadModel;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
@@ -88,7 +87,10 @@ class ProjectServiceTest {
         var today = LocalDate.now().atStartOfDay();
         // and
         var mockRepository = mock(ProjectRepository.class);
-        when(mockRepository.findById(anyInt())).thenReturn(Optional.empty());
+        when(mockRepository.findById(anyInt()))
+                .thenReturn(Optional.of(
+                        projectWith("bar", Set.of(-1, -2))
+                ));
         // and
         InMemoryGroupRepository inMemoryGroupRepo = inMemoryGroupRepository();
         int countBeforeCall = inMemoryGroupRepo.count();
@@ -101,9 +103,27 @@ class ProjectServiceTest {
         GroupReadModel result = toTest.createGroup(today, 1);
 
         // then
-//        assertThat(result)
+        assertThat(result.getDescription()).isEqualTo("bar");
+        assertThat(result.getDeadline()).isEqualTo(today.minusDays(1));
+        assertThat(result.getTasks().stream()
+                .allMatch(task -> task.getDescription().equals("foo")));
         assertThat(countBeforeCall + 1)
                 .isNotEqualTo(inMemoryGroupRepo.count());
+    }
+
+    private Project projectWith(String projectDescription, Set<Integer> daysToDeadline) {
+        var result = mock(Project.class);
+        when(result.getDescription()).thenReturn(projectDescription);
+        when(result.getSteps()).thenReturn(
+                daysToDeadline.stream()
+                        .map(days -> {
+                            var step = mock(ProjectStep.class);
+                            when(step.getDescription()).thenReturn("foo");
+                            when(step.getDaysToDeadline()).thenReturn(days);
+                            return step;
+                        }).collect(Collectors.toSet())
+        );
+        return result;
     }
 
     private TaskGroupRepository groupRepositoryReturning(final boolean result) {
