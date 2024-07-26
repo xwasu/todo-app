@@ -3,13 +3,11 @@ package io.github.xwasu.logic;
 import io.github.xwasu.TaskConfigurationProperties;
 import io.github.xwasu.model.*;
 import io.github.xwasu.model.projection.GroupReadModel;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
 public class ProjectService {
     private ProjectRepository repository;
     private TaskGroupRepository taskGroupRepository;
