@@ -62,7 +62,7 @@ class TaskController {
 
     @Transactional
     @PatchMapping("/tasks/{id}")
-    public ResponseEntity<?> updateTask(@PathVariable int id) {
+    public ResponseEntity<?> toggleTask(@PathVariable int id) {
         if (!repository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
