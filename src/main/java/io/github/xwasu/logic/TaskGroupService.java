@@ -5,12 +5,10 @@ import io.github.xwasu.model.TaskGroupRepository;
 import io.github.xwasu.model.TaskRepository;
 import io.github.xwasu.model.projection.GroupReadModel;
 import io.github.xwasu.model.projection.GroupWriteModel;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
 public class TaskGroupService {
     private TaskGroupRepository repository;
     private TaskRepository taskRepository;
