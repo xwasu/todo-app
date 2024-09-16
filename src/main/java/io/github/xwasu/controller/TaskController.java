@@ -1,6 +1,5 @@
 package io.github.xwasu.controller;
 
-import io.github.xwasu.logic.TaskService;
 import io.github.xwasu.model.Task;
 import io.github.xwasu.model.TaskRepository;
 import jakarta.validation.Valid;
@@ -13,18 +12,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/tasks")
 class TaskController {
     private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
     private final TaskRepository repository;
-    private final TaskService service;
 
-    TaskController(final TaskRepository repository, final TaskService service) {
+    TaskController(final TaskRepository repository) {
         this.repository = repository;
-        this.service = service;
     }
 
     @PostMapping
@@ -34,9 +30,9 @@ class TaskController {
     }
 
     @GetMapping(params = {"!sort", "!page", "!size"})
-    CompletableFuture<ResponseEntity<List<Task>>> readAllTasks() {
+    ResponseEntity<List<Task>> readAllTasks() {
         logger.warn("Exposing all the tasks!");
-        return service.findAllAsync().thenApply(ResponseEntity::ok);
+        return ResponseEntity.ok(repository.findAll());
     }
 
     @GetMapping
