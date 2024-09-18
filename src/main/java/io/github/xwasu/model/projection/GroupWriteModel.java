@@ -1,5 +1,6 @@
 package io.github.xwasu.model.projection;
 
+import io.github.xwasu.model.Project;
 import io.github.xwasu.model.TaskGroup;
 
 import java.util.Set;
@@ -25,7 +26,7 @@ public class GroupWriteModel {
         this.tasks = tasks;
     }
 
-    public TaskGroup toGroup() {
+    public TaskGroup toGroup(final Project project) {
         var result = new TaskGroup();
         result.setDescription(description);
         result.setTasks(
@@ -33,6 +34,7 @@ public class GroupWriteModel {
                         .map(source -> source.toTask(result))
                         .collect(Collectors.toSet())
         );
+        result.setProject(project);
         return result;
     }
 }
